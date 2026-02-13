@@ -1,0 +1,16 @@
+seed: 42
+
+io:
+  pattern: "*.png"
+
+cleaning:
+  iqr_k: 1.5
+
+pca:
+  n_components: 2
+
+regression:
+  model: "ridge"
+  alpha: 1.0
+  target: "Smile_Angle"
+  features: ["fWHR", "EFR", "ESI", "Mouth_Width"]

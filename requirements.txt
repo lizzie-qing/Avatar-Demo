@@ -1,0 +1,13 @@
+numpy
+pandas
+opencv-python
+mediapipe
+scikit-learn
+matplotlib
+pyyaml
+pytest
+fastapi
+uvicorn
+python-multipart
+streamlit
+requests
