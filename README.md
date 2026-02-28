@@ -1,19 +1,25 @@
 # AvatarDemo — Face geometry → impression prediction (demo)
 
-A small end-to-end demo project:
+A small end-to-end demo project that turns avatar PNGs into reproducible analysis artifacts.
 
-**PNG avatars → facial geometry features (MediaPipe) → cleaning → PCA → regression → report + API + dashboard**
+**PNG avatars → facial geometry features (MediaPipe) → cleaning → PCA → regression → report (+ optional API + dashboard)**
 
+## Purpose
+- Provide a reproducible, end-to-end baseline pipeline.
+- Produce a fixed set of artifacts under `outputs/` (output contract) for traceability and review.
+  
 ## Output contract (fixed artifacts)
-Running the pipeline will generate the following files under `outputs/`:
+Running the pipeline generates the following files under `outputs/`:
 
 - `features.csv` — extracted features per image (fWHR, EFR, ESI, Smile_Angle, Mouth_Width)
 - `cleaned.csv` — cleaned feature table after simple rules
 - `pca.png` — PC1–PC2 scatter plot
 - `regression_summary.txt` — baseline regression summary (Ridge/OLS)
-- `report.md` — auto-generated readable report (includes PCA figure + key stats)
+- `report.md` — auto-generated report (includes PCA figure + key stats)
 
-(Extra) `io_log.json`, `cleaning_log.json`, `run_metadata.json` are also generated for traceability.
+Additional logs for traceability:
+- `io_log.json`, `cleaning_log.json`, `run_metadata.json`
+
 
 ## Project structure
 
@@ -57,7 +63,7 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-python -m app run --input data --out outputs --config configs/default.yaml**.
+python -m app run --input data --out outputs --config configs/default.yaml
 ```
 
 ### Option B: Docker
@@ -81,9 +87,25 @@ http://127.0.0.1:8001/docs
 `
 streamlit run app/dashboard.py
 `
-### Open:
+### Open Swagger:
 
 ` http://127.0.0.1:8501`
+### Endpoints:
+`
+GET /health
+`
+`
+POST /predict (multipart image upload)
+`
+
+## Dashboard (Streamlit) — optional
+
+### Start:
+`
+streamlit run app/dashboard.py
+`
+### Open:
+` [http://127.0.0.1:8501](http://127.0.0.1:8501)`
 
 ### Screenshots
 - PCA: `assets/pca.png`
@@ -93,11 +115,11 @@ streamlit run app/dashboard.py
 - Dashboard: ` assets/dashboard.png` 
 
 # Notes / limitations
-- This is a demo baseline. Feature extraction uses MediaPipe FaceMesh and simple geometric heuristics.
+This is a demo baseline. Feature extraction uses MediaPipe FaceMesh and simple geometric heuristics.
 
-- The regression target in this demo is configurable; current default is defined in ` configs/default.yaml.` 
+The regression target is configurable; the current default is defined in `configs/default.yaml`.
 
-- For real research / production, we would add dataset versioning, stronger validation, and a proper model training pipeline.
+For research / production use, we would add dataset versioning, stronger validation, and a more robust training/evaluation pipeline.
 
 ## Makefile shortcuts (recommended)
 
